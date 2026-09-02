@@ -1,0 +1,11 @@
+{
+  "name": "SchoolGenius AI",
+  "description": "Advanced AI-Powered School Learning Platform with Virtual Science & Math Labs, Homework Solver, Exam Coach, Study Planner, Revision Assistant & Interactive STEM Simulators for Grades 1-12.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

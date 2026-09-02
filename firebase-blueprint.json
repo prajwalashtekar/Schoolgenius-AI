@@ -1,0 +1,117 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account document containing student profile, streak calculations, level, XP, and settings",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth user UID" },
+        "email": { "type": "string", "description": "User email address" },
+        "name": { "type": "string", "description": "Display name of student" },
+        "grade": { "type": "string", "description": "Grade level 1-12" },
+        "board": { "type": "string", "description": "Curriculum Board: CBSE, ICSE, etc." },
+        "targetExam": { "type": "string", "description": "Target goals like Board Exams, Olympiads" },
+        "avatar": { "type": "string", "description": "Avatar emoji or URL" },
+        "xp": { "type": "number", "description": "Total experience points" },
+        "level": { "type": "number", "description": "Calculated level" },
+        "streakDays": { "type": "number", "description": "Consecutive days active" },
+        "lastActiveDate": { "type": "string", "description": "ISO date string of last activity" },
+        "completedGoals": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "IDs of completed goals"
+        },
+        "flashcardProgress": {
+          "type": "object",
+          "description": "Flashcard Leitner box mapping"
+        },
+        "createdAt": { "type": "string", "description": "Account creation timestamp" },
+        "updatedAt": { "type": "string", "description": "Last updated timestamp" }
+      },
+      "required": ["userId", "email", "name", "grade", "board", "xp", "level", "streakDays"]
+    },
+    "SavedNote": {
+      "title": "SavedNote",
+      "description": "Notes, one-pagers, formulas, and AI doubt solutions saved by the student",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of owner" },
+        "title": { "type": "string", "description": "Note title" },
+        "subject": { "type": "string", "description": "Academic subject" },
+        "content": { "type": "string", "description": "Note markdown or text body" },
+        "type": { "type": "string", "description": "one-pager | mind-map | formula | doubt-solution" },
+        "createdAt": { "type": "string", "description": "ISO creation timestamp" }
+      },
+      "required": ["userId", "title", "subject", "content", "createdAt"]
+    },
+    "MistakeItem": {
+      "title": "MistakeItem",
+      "description": "Questions and problems logged to the student's personal mistake bank for spaced repetition",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of owner" },
+        "question": { "type": "string", "description": "Original question" },
+        "studentAnswer": { "type": "string", "description": "Student's attempted answer" },
+        "correctAnswer": { "type": "string", "description": "Verified correct answer" },
+        "explanation": { "type": "string", "description": "Detailed step-by-step resolution" },
+        "subject": { "type": "string", "description": "Academic subject" },
+        "topic": { "type": "string", "description": "Topic or unit" },
+        "dateAdded": { "type": "string", "description": "ISO timestamp" },
+        "resolved": { "type": "boolean", "description": "Whether reviewed and resolved" }
+      },
+      "required": ["userId", "question", "correctAnswer", "subject", "resolved"]
+    },
+    "StudyGoal": {
+      "title": "StudyGoal",
+      "description": "Daily and weekly learning objectives",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of owner" },
+        "title": { "type": "string", "description": "Goal title" },
+        "subject": { "type": "string", "description": "Subject name" },
+        "durationMinutes": { "type": "number", "description": "Estimated target duration" },
+        "completed": { "type": "boolean", "description": "Completion state" },
+        "dueDate": { "type": "string", "description": "Due timeline description" },
+        "createdAt": { "type": "string", "description": "ISO timestamp" }
+      },
+      "required": ["userId", "title", "subject", "completed"]
+    },
+    "ExamResult": {
+      "title": "ExamResult",
+      "description": "Test scores, mock exam attempts, and time spent",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of owner" },
+        "subject": { "type": "string", "description": "Exam subject" },
+        "topic": { "type": "string", "description": "Test topic or mock unit" },
+        "score": { "type": "number", "description": "Score obtained" },
+        "totalMarks": { "type": "number", "description": "Maximum marks possible" },
+        "accuracyPercent": { "type": "number", "description": "Calculated percentage" },
+        "completedAt": { "type": "string", "description": "ISO completion timestamp" }
+      },
+      "required": ["userId", "subject", "score", "totalMarks", "completedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document with streak, XP, grade, and level"
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "schema": "SavedNote",
+      "description": "User saved revision notes"
+    },
+    "/users/{userId}/mistakes/{mistakeId}": {
+      "schema": "MistakeItem",
+      "description": "User mistake bank questions"
+    },
+    "/users/{userId}/goals/{goalId}": {
+      "schema": "StudyGoal",
+      "description": "User daily study goals"
+    },
+    "/users/{userId}/examResults/{resultId}": {
+      "schema": "ExamResult",
+      "description": "User historical exam scores"
+    }
+  }
+}
